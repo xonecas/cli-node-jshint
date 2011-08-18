@@ -59,9 +59,9 @@ function parseFiles() {
    if (paths.length > 0) {
       filepath = paths.shift();
       fs.readFile(filepath, 'utf8', function (err, out) {
-         if (err) 
+         if (err) {
             throw err;
-         
+         }
 
          files[filepath] = out;
    
