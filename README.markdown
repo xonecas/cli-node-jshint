@@ -11,8 +11,7 @@ You are going to need jshint, then just drop cli-jshint into that, or run these
 two commands:
 
     git clone https://github.com/jshint/jshint.git
-    cd jshint
-    git clone https://github.com/xonecas/cli-node-jshint.git
+    git clone https://github.com/xonecas/cli-node-jshint.git jshint
 
 ## Usage
 
