@@ -10,7 +10,7 @@ This is a very simple solution. It depends on [jshint](https://github.com/jshint
 You are going to need jshint, then just drop cli-jshint into that, or run these
 two commands:
 
-    git clone https://github.com/xonecas/cli-node-jshint.git
+    git clone --recursive https://github.com/xonecas/cli-node-jshint.git
 
 ## Usage
 
