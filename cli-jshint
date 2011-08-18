@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 /*jshint node:true, curly:true, onevar:true, maxlen:80 */
 
-var jshint  = require('./jshint.js').JSHINT,
+var jshint  = require('./jshint/jshint.js').JSHINT,
    fs       = require('fs'),
    args     = process.argv.slice(2),
    paths    = [],

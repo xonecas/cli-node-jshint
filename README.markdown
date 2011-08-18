@@ -10,15 +10,14 @@ This is a very simple solution. It depends on [jshint](https://github.com/jshint
 You are going to need jshint, then just drop cli-jshint into that, or run these
 two commands:
 
-    git clone https://github.com/jshint/jshint.git
-    git clone https://github.com/xonecas/cli-node-jshint.git jshint
+    git clone https://github.com/xonecas/cli-node-jshint.git
 
 ## Usage
 
 Same as would expect, please head on to [jshint's webby](http://jshint.com/#docs)
  for the full docs. But this will get you started:
 
-    cd jshint
+    cd cli-none-jshint
     ./cli-jshint path/to/js/file option:value option:value
 
 ## Example
