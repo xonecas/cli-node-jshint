@@ -1,0 +1,68 @@
+#! /usr/bin/env node
+/*jshint node:true, curly:true, onevar:true, maxlen:80 */
+
+var jshint  = require('./jshint.js').JSHINT,
+   fs       = require('fs'),
+   args     = process.argv.slice(2),
+   paths    = [],
+   options  = {},
+   files    = {},
+   hasProp  = Object.prototype.hasOwnProperty,
+   keyValuePair;
+
+args.forEach(function (arg) {
+   if (arg.indexOf('/') !== -1) {
+      /* path to js file */
+      paths.push(arg);
+   } else {
+      /* jshint option */
+      keyValuePair = arg.split(':');
+      options[keyValuePair[0]] = keyValuePair[1];
+   }
+});
+
+function reportErrors (errors) {
+   errors.forEach(function (err) {
+      console.log(
+         err.reason,
+         "\nline: "+ err.line +" char: "+ err.character,
+         "\n"+ err.evidence +"\n\n"
+      );
+   });
+}
+
+function parseFiles() {
+   var prop;
+
+   for (prop in files) {
+      if (hasProp.call(files, prop)) {
+         console.log("\n\nChecking "+ prop);
+
+         if (jshint(files[prop], options)) {
+            console.log("Hooray, no lint!\n\n");
+         } else {
+            console.log("Error(s): \n");
+            reportErrors(jshint.errors);
+         }
+      }
+   }
+}
+
+(function readAll () {
+   var path;
+
+   if (paths.length > 0) {
+      path = paths.shift();
+      fs.readFile(path, 'utf8', function (err, out) {
+         if (err) {
+            throw err;
+         }
+
+         files[path] = out;
+   
+         readAll();
+      });
+   } else {
+      parseFiles();
+   }
+}) ();
