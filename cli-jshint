@@ -3,6 +3,7 @@
 
 var jshint  = require('./jshint/jshint.js').JSHINT,
    fs       = require('fs'),
+   path     = require('path'),
    args     = process.argv.slice(2),
    paths    = [],
    options  = {},
@@ -21,14 +22,19 @@ args.forEach(function (arg) {
    }
 });
 
-function reportErrors (errors) {
+function reportErrors (file, errors) {
+   var str = "";
+
+   file = path.basename(file);
+
    errors.forEach(function (err) {
-      console.log(
-         err.reason,
-         "\nline: "+ err.line +" char: "+ err.character,
-         "\n"+ err.evidence +"\n\n"
-      );
+      /* Same error reporting syntax as @brentlintner's
+         so that it works with 3rd party plugins (vim/emacs?) */
+      str += file + ': line '+ err.line + ', col ' + err.character +
+         ', ' + err.reason + '\n';
    });
+
+   console.log(str +"\n"+ errors.length + ' error(s)');
 }
 
 function parseFiles() {
@@ -36,29 +42,28 @@ function parseFiles() {
 
    for (prop in files) {
       if (hasProp.call(files, prop)) {
-         console.log("\n\nChecking "+ prop);
-
          if (jshint(files[prop], options)) {
-            console.log("Hooray, no lint!\n\n");
+            console.log("Hooray, no lint!");
+            process.exit(0);
          } else {
-            console.log("Error(s): \n");
-            reportErrors(jshint.errors);
+            reportErrors(prop, jshint.errors);
+            process.exit(1);
          }
       }
    }
 }
 
 (function readAll () {
-   var path;
+   var filepath;
 
    if (paths.length > 0) {
-      path = paths.shift();
-      fs.readFile(path, 'utf8', function (err, out) {
-         if (err) {
+      filepath = paths.shift();
+      fs.readFile(filepath, 'utf8', function (err, out) {
+         if (err) 
             throw err;
-         }
+         
 
-         files[path] = out;
+         files[filepath] = out;
    
          readAll();
       });
