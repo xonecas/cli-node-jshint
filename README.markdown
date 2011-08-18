@@ -30,7 +30,12 @@ With the options set in file:
 
 With options
 
-   ./cli-jshint ./cli-jshint curly:true debug:true node:true
+    ./cli-jshint ./cli-jshint curly:true debug:true node:true
+
+
+### Recommended
+
+Add this to your path so your vim/emacs plugin can use it.
 
 ### License?
 
