@@ -12,9 +12,9 @@ var jshint  = require('./jshint/jshint.js').JSHINT,
    keyValuePair;
 
 args.forEach(function (arg) {
-   if (arg.indexOf('/') !== -1) {
+   if (arg.indexOf(':') === -1) {
       /* path to js file */
-      paths.push(arg);
+      paths.push(path.resolve(arg));
    } else {
       /* jshint option */
       keyValuePair = arg.split(':');
@@ -24,8 +24,6 @@ args.forEach(function (arg) {
 
 function reportErrors (file, errors) {
    var str = "";
-
-   file = path.basename(file);
 
    errors.forEach(function (err) {
       /* Same error reporting syntax as @brentlintner's
